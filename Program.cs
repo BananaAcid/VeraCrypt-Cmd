@@ -10,12 +10,17 @@ namespace VeraCrypt_Cmd
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Find VeraCrypt mounts and drive letter.");
-            GetMounts().Wait();
+            Console.WriteLine("Find VeraCrypt mounts and drive letter. use /x for extended info.");
+            
+            if (Environment.GetCommandLineArgs().Contains<string>("/x"))
+                GetMounts().Wait();
+            else
+                GetMountsSimple().Wait();
         }
 
 
-        private static async Task GetMounts()
+
+        private static async Task GetMountsSimple()
         {
             var found = false;
             var a = await Utils.VcGetMounts.getMounted();
@@ -26,9 +31,9 @@ namespace VeraCrypt_Cmd
                 foreach (var item in a)
                 {
                     if (!found) // on first iteration
-                        Console.WriteLine("Letter\tMount source");
+                        Console.WriteLine("letter\tMount source");
 
-                    Console.WriteLine(item.Key + "\t" + item.Value);
+                    Console.WriteLine(item.Key + "\t" + item.Value.volumeName);
 
                     found = true;
                 }
@@ -39,5 +44,55 @@ namespace VeraCrypt_Cmd
             if (!found)
                 Console.WriteLine("No mounts found.");
         }
-    }
+
+
+
+        private static async Task GetMounts()
+        {
+            var found = false;
+            var a = await Utils.VcGetMounts.getMounted();
+
+            // fixed order
+            var keys = new string[] { "letter", "truecryptMode", "diskLength", "volumeLabel", "volumeName" };
+
+            try
+            {
+                foreach (var item in a)
+                {
+                    if (!found) // on first iteration
+                    {
+                        foreach (var prop in keys)
+                            Console.Write("{0}\t", prop);
+
+                        Console.Write("\n");
+                    }
+
+                    foreach (var pKey in keys)
+                    {
+                        var prop = item.Value.GetType().GetProperty(pKey);
+                        try
+                        {
+                            var x = prop.GetValue(item.Value);
+                            Console.Write("{0}\t", x.ToString().Equals("") ? "?" : x);
+                        }
+                        catch
+                        {
+                            Console.Write("?\t");
+                        }
+                    }
+
+                    Console.Write("\n");
+                    found = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            if (!found)
+                Console.WriteLine("No mounts found.");
+        }
+
+     }
 }

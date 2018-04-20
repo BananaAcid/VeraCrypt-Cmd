@@ -28,8 +28,23 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
+/// <summary>
+///  v2.0 added MountInfo struct
+/// </summary>
 namespace Utils
 {
+    /// <summary>
+    /// info holding struct
+    /// </summary>
+    public class MountInfo
+    {
+        public char letter { get; set; }
+        public string volumeName { get; set; }
+        public string volumeLabel { get; set; }
+        public UInt64 diskLength { get; set; }
+        public bool truecryptMode { get; set; }
+    }
+
     /// <summary>
     /// access VeraCrypt's Mounting info
     /// </summary>
@@ -51,11 +66,11 @@ namespace Utils
         ///         Debug.WriteLine("{0} -> {1}", i.Key, i.Value);
         ///     }
         /// </example>
-        public static async Task<Dictionary<char, string>> getMounted()
+        public static async Task<Dictionary<char, MountInfo>> getMounted()
         {
-            return await Task.Run<Dictionary<char, string>>(() =>
+            return await Task.Run<Dictionary<char, MountInfo>>(() =>
             {
-                var ret = new Dictionary<char, string>();
+                var ret = new Dictionary<char, MountInfo>();
 
                 uint size = (uint)Marshal.SizeOf(typeof(MOUNT_LIST_STRUCT));
                 IntPtr buffer = Marshal.AllocHGlobal((int)size);
@@ -72,8 +87,14 @@ namespace Utils
                     //Debug.WriteLine("{0}: => {1}", (char)('A' + i), mount.wszVolume[i]);
                     if (mount.wszVolume[i].ToString().Length > 0)
                     {
-                        Debug.WriteLine("{0}: => {1}", (char)('A' + i), mount.wszVolume[i]);
-                        ret.Add((char)('A' + i), mount.wszVolume[i].ToString());
+                        // Debug.WriteLine("{0}: => {1}", (char)('A' + i), mount.wszVolume[i]);
+                        ret.Add((char)('A' + i), new MountInfo() {
+                            letter = (char)('A' + i),
+                            volumeName = mount.wszVolume[i].ToString(),
+                            volumeLabel = mount.wszLabel[i].ToString(),
+                            diskLength = mount.diskLength[i],
+                            truecryptMode = mount.truecryptMode[i]
+                        });
                     }
 
                 return ret;
