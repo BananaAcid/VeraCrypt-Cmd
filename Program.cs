@@ -31,7 +31,7 @@ namespace VeraCrypt_Cmd
                 foreach (var item in a)
                 {
                     if (!found) // on first iteration
-                        Console.WriteLine("letter\tMount source");
+                        Console.WriteLine("letter\tMount source (volumeName)");
 
                     Console.WriteLine(item.Key + "\t" + item.Value.volumeName);
 
