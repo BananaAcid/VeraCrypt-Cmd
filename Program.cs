@@ -184,7 +184,7 @@ namespace VeraCrypt_Cmd
                         var rows = row.Select(x =>
                         {
                             if (x.Value is System.String || x.Value is System.Char)
-                                return String.Format("\t\t\t\"{0}\": \"{1}\"", x.Key, x.Value.ToString());
+                                return String.Format("\t\t\t\"{0}\": \"{1}\"", x.Key, x.Value.ToString().Replace(@"\", @"\\"));
                             else if (x.Value.Equals(null))
                                 return String.Format("\t\t\t\"{0}\": {1}", x.Key, "null");
                             else if (x.Value is System.Boolean)
