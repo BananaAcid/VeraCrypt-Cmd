@@ -37,7 +37,7 @@ Version 1.1.0.0 added the output modes (code got messier). For a simpler usecase
                             "truecryptMode": false,
                             "diskLength": 4980736,
                             "volumeLabel": "",
-                            "volumeName": "\??\C:\Users\BananaAcid\test.vc"
+                            "volumeName": "\\??\\C:\\Users\\BananaAcid\\test.vc"
                     }
                     ,
                     {
@@ -45,10 +45,13 @@ Version 1.1.0.0 added the output modes (code got messier). For a simpler usecase
                             "truecryptMode": false,
                             "diskLength": 4980736,
                             "volumeLabel": "",
-                            "volumeName": "\??\C:\Users\BananaAcid\test 2.vc"
+                            "volumeName": "\\??\\C:\\Users\\BananaAcid\\test 2.vc"
                     }
             ]
     }
+    
+All backslashes have to be escaped. The prefix `\??\` is how windows handles paths, that can be super long.
+
 
 Relates to https://github.com/BananaAcid/Selfcontained-C-Sharp-WPF-compatible-utility-classes
 
