@@ -4,7 +4,7 @@ Download binary only: [bin/Release/VeraCrypt Cmd.exe](https://github.com/BananaA
 
 __Source code and binary__
 
-    C:\VeraCrypt Cmd\bin\Release\VeraCrypt Cmd.exe
+    C:\VeraCrypt Cmd\bin\Release> VeraCrypt Cmd.exe
     VeraCrypt Cmd v.1.1.0.0
     Find VeraCrypt mounts and drive letters.
     VeraCrypt must be installed. Use /x for extended info, /json for json output, /csv for comma seperated values
@@ -16,8 +16,8 @@ __Source code and binary__
 
 - `/x` get extended infos: letter, truecryptMode, diskLength, volumeLabel, volumeName
 - `/text` is the default, generate user readable output
-- `/json` sets the output generate JSON
-- `/csv` sets the output to generate properly escaped CSV
+- `/json` sets the output to generate JSON, no info header
+- `/csv` sets the output to generate properly escaped CSV, no info header
 
 _truecryptMode_: if vera crypt loaded a TrueCrypt container in compatibility mode
 
@@ -50,9 +50,9 @@ Version 1.1.0.0 added the output modes (code got messier). For a simpler usecase
             ]
     }
     
-All backslashes have to be escaped. The prefix `\??\` is how windows handles paths, that can be super long.
+All backslashes are properly escaped (`\\`). The prefix `\??\` is how windows allows super long paths.
 
 
-Relates to https://github.com/BananaAcid/Selfcontained-C-Sharp-WPF-compatible-utility-classes
+Project relates to https://github.com/BananaAcid/Selfcontained-C-Sharp-WPF-compatible-utility-classes
 
 MIT license used.
