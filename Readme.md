@@ -22,7 +22,7 @@ __Source code and binary__
 _truecryptMode_: if vera crypt loaded a TrueCrypt container in compatibility mode
 
 
-Version 1.1.0.0 added the output modes (code got messier). For a simpler usecase, select version 1.0.0.0.
+Version 1.1.0.0 added the output modes (code got messier). For a simpler usecase, [select version 1.0.0.0](https://github.com/BananaAcid/VeraCrypt-Cmd/tree/v1.0.0.0).
 
 
 ## Output for `/json /x`
